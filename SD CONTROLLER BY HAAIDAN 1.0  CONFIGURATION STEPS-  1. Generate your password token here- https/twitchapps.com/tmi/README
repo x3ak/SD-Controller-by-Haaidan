@@ -5,15 +5,19 @@ SD CONTROLLER BY HAAIDAN 1.0
 
 CONFIGURATION STEPS:
 
-1. Generate your password token here: https://twitchapps.com/tmi/
+1. Download ALL the files and put them together in the same folder (if they are not)
 
-2. Open the "interface.html" file with NOTEPAD or any other text editor software
+2. Generate your password token here: https://twitchapps.com/tmi/
 
-3. Scroll down until you find this:      unsername: 'your_twitch_nickname_here'.  (it should be in the very last line) Replace it with your twitch nickname. DON'T erase the ''
+3. Open the "interface.html" file with NOTEPAD or any other text editor software
 
-4. At the same line you should also find   password: 'oauth:your_oauthkey_here'. Go ahead and replace it with your key generated at STEP 1. DON'T erase the ''. Also Include the oauth: 
+4. Scroll down until you find this:      unsername: 'your_twitch_nickname_here'.  (it should be in the very last line) 
+Replace it with your twitch nickname. DON'T erase the ''
 
-5. Done! Just double click on the "interface.html" file, open it with your favorite browser and play :)
+5. At the same line you should also find   password: 'oauth:your_oauthkey_here'. 
+Go ahead and replace it with your key generated at STEP 1. DON'T erase the ''. Also Include the "oauth:"
+
+6. Done! Just double click on the "interface.html" file, open it with your favorite browser and play :)
 
 
 ***Don't forget to click on the button "connect to chat" before picking up your class.
