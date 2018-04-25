@@ -1,3 +1,7 @@
+Alternative download link:
+https://drive.google.com/open?id=13eYjwNZW2pNmjxuhZubIAhv2FIueWIAb
+
+
 # SD-Controller-by-Haaidan
 A complete controller for the streamDefence game on Twitch.tv
 
