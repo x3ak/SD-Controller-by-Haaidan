@@ -1,14 +1,14 @@
 <!doctype html>
 <html>
 <head>
-    <title>SD Controller by haaidan 1.0</title>
+    <title>SD Controller by haaidan 1.1</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="controllerstyle.css">
     
 </head>
 <body>
 
-
+<script src="configuration.js"></script>
 
 
 <!-- Add a placeholder for the Twitch embed -->
@@ -18,16 +18,19 @@
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
     <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
+    
     <script type="text/javascript">
       new Twitch.Embed("twitch-embed", {
-        width: "100%",
-        height: "600",
-        channel: "archonthewizard"
+        width: width,
+        height: height,
+        channel: channel
       });
       
       var spell=null;
       var stack=1;
       var towernumber=null;
+      var lastcommand=null;
+      var playedhp = false;
       
       
       
@@ -40,45 +43,45 @@
         <button class="connect btn">Connect to chat</button>
         <button class="disconnect btn">Disconnect from chat</button>
 
-        <button class="archer btn">!archer</button>
-        <button class="firemage btn">!firemage</button>
-        <button class="frostmage btn">!frostmage</button>
-        <button class="alchemist btn">!alchemist</button>
-        <button class="rogue btn">!rogue</button>
-        <button class="bard btn">!bard</button>
-        <button class="trapper btn">!trapper</button>
-        <button class="highpriest btn">!highpriest</button>
+        <button class="archer btn" onclick="send('!archer')">!archer</button>
+        <button class="firemage btn" onclick="send('!firemage')">!firemage</button>
+        <button class="frostmage btn" onclick="send('!frostmage')">!frostmage</button>
+        <button class="alchemist btn" onclick="send('!alchemist')">!alchemist</button>
+        <button class="rogue btn" onclick="send('!rogue')">!rogue</button>
+        <button class="bard btn" onclick="send('!bard')">!bard</button>
+        <button class="trapper btn" onclick="send('!trapper')">!trapper</button>
+        <button class="highpriest btn" onclick="send('!highpriest')">!highpriest</button>
 
 
     </div>
     
      <div id="towers">
         
-		<button class="t1 btn">!1</button>
-		<button class="t2 btn">!2</button>
-		<button class="t3 btn">!3</button>
-		<button class="t4 btn">!4</button>
-		<button class="t5 btn">!5</button>
-		<button class="t6 btn">!6</button>
-		<button class="t7 btn">!7</button>
-		<button class="t8 btn">!8</button>
-		<button class="t9 btn">!9</button>
-		<button class="t10 btn">!10</button>
-		<button class="t11 btn">!11</button>
-		<button class="t12 btn">!12</button>
+		<button class="t1 btn" onclick="send('!1')">!1</button>
+		<button class="t2 btn" onclick="send('!2')">!2</button>
+		<button class="t3 btn" onclick="send('!3')">!3</button>
+		<button class="t4 btn" onclick="send('!4')">!4</button>
+		<button class="t5 btn" onclick="send('!5')">!5</button>
+		<button class="t6 btn" onclick="send('!6')">!6</button>
+		<button class="t7 btn" onclick="send('!7')">!7</button>
+		<button class="t8 btn" onclick="send('!8')">!8</button>
+		<button class="t9 btn" onclick="send('!9')">!9</button>
+		<button class="t10 btn" onclick="send('!10')">!10</button>
+		<button class="t11 btn" onclick="send('!11')">!11</button>
+		<button class="t12 btn" onclick="send('!12')">!12</button>
 				
     </div>
     
     <div id="misc">
-		<button class="p btn">!p</button>
-		<button class="pd btn">!pd</button>
+		<button class="p btn" onclick="send('!p')">!p</button>
+		<button class="pd btn" onclick="send('!pd')">!pd</button>
 		
 	</div>
 	
 	    <div id="misc2">
-		<button class="train btn">!t</button>
-		<button class="altar btn">!a</button>
-		<button class="leave btn">!leave</button>
+		<button class="train btn" onclick="send('!train')">!t</button>
+		<button class="altar btn" onclick="send('!altar')">!a</button>
+		<button class="leave btn" onclick="send('!leave')">!leave</button>
 		
 	</div>
 
@@ -91,228 +94,185 @@
 
     <script src="chatbot.js"></script>
     <script>
+    
     $(document).ready(function(){
         $('.connect').click(function(){
             window.chatClient.open();
         });
         $('.disconnect').click(function(){
             window.chatClient.close();
-        });
-        
-        $('.archer').click(function(){
-        	document.getElementById("class-commands").innerHTML = "";
-        	window.chatClient.archer();
-        });
-        $('.firemage').click(function(){
-        	document.getElementById("class-commands").innerHTML = "";
-        	window.chatClient.firemage();
-        });
-        $('.frostmage').click(function(){
-        	
-        	document.getElementById("class-commands").innerHTML = 
-            '<button class="spa btn" onclick="tspa();">!spa</button><button class="spb btn" onclick="tspb();">!spb</button><button class="spc btn" onclick="tspc();">!spc</button><button class="spd btn" onclick="tspd();">!spd</button>';
-         	
-        	window.chatClient.frostmage();
-        });
-        $('.alchemist').click(function(){
-        	
-        	document.getElementById("class-commands").innerHTML = 
-            	'<button class="sp1 btn" onclick="tsp1();">!sp1</button><button class="sp2 btn" onclick="tsp2();">!sp2</button><button class="sp3 btn" onclick="tsp3();">!sp3</button><button class="sp4 btn" onclick="tsp4();">!sp4</button><button class="sp5 btn" onclick="tsp5();">!sp5</button><button class="sp6 btn" onclick="tsp6();">!sp6</button><button class="sp7 btn" onclick="tsp7();">!sp7</button><button class="sp8 btn" onclick="tsp8();">!sp8</button><button class="sp9 btn" onclick="tsp9();">!sp9</button>';
-            	
-       		window.chatClient.alchemist();
-        	
-        	
-        });
-        $('.rogue').click(function(){
-        	
-        	document.getElementById("class-commands").innerHTML = 
-            '<button class="sp btn" onclick="tsp();">!sp</button>';
-        	
-        	window.chatClient.rogue();
-        });
-        $('.bard').click(function(){
-        	document.getElementById("class-commands").innerHTML = "";
-        	window.chatClient.bard();
-        });
-        $('.trapper').click(function(){
-        	
-        	document.getElementById("class-commands").innerHTML = 
-        	'<button class="spbear btn" onclick="tspbear();">!spbear</button><button class="spweak btn" onclick="tspweak();">!spweak</button><button class="sppoison btn" onclick="tsppoison();">!sppoison</button><button class="spfire btn" onclick="tspfire();">!spfire</button><button class="sparmor btn" onclick="tsparmor();">!sparmor</button><button class="spfrost btn" onclick="tspfrost();">!spfrost</button>';
-        	window.chatClient.trapper();
-  
-        });
-        $('.highpriest').click(function(){
-        	
-        	document.getElementById("class-commands").innerHTML = 
-            	'Please select a gem:<button class="citrine btn" onclick="tcitrine();">!citrine</button><button class="ruby btn" onclick="truby();">!ruby</button><button class="emerald btn" onclick="temerald();">!emerald</button><button class="onyx btn" onclick="tonyx();">!onyx</button>';
-        	
-            document.getElementById("towers").innerHTML = 
-            '<button class="b1 btn" onclick="bufftower(1)">!1</button><button class="b2 btn" onclick="bufftower(2)">!2</button><button class="b3 btn" onclick="bufftower(3)">!3</button><button class="b4 btn" onclick="bufftower(4)">!4</button><button class="b5 btn" onclick="bufftower(5)">!5</button><button class="b6 btn" onclick="bufftower(6)">!6</button><button class="b7 btn" onclick="bufftower(7)">!7</button><button class="b8 btn" onclick="bufftower(8)">!8</button><button class="b9 btn" onclick="bufftower(9)">!9</button><button class="b10 btn" onclick="bufftower(10)">!10</button><button class="b11 btn" onclick="bufftower(11)">!11</button><button class="b12 btn" onclick="bufftower(12)">!12</button>';
-
-            document.getElementById("misc").innerHTML = 
-            'cast spell xtimes: <button id="stack1" onclick="setstack(1)">x1</button><button id="stack2" onclick="setstack(2)">x2</button><button id="stack3" onclick="setstack(3)">x3</button><button id="stack4" onclick="setstack(4)">x4</button>';
-			
-            document.getElementById("misc2").innerHTML = "<button class='leave btn'>!leave</button>";
-            	
-            	
-            window.chatClient.highpriest();
-        });
-        
-        
-        $('.t1').click(function(){
-        	window.chatClient.t1();
-        });
-        $('.t2').click(function(){
-        	window.chatClient.t2();
-        });
-        $('.t3').click(function(){
-        	window.chatClient.t3();
-        });
-        $('.t4').click(function(){
-        	window.chatClient.t4();
-        });
-        $('.t5').click(function(){
-        	window.chatClient.t5();
-        });
-        $('.t6').click(function(){
-        	window.chatClient.t6();
-        });
-        $('.t7').click(function(){
-        	window.chatClient.t7();
-        });
-        $('.t8').click(function(){
-        	window.chatClient.t8();
-        });
-        $('.t9').click(function(){
-        	window.chatClient.t9();
-        });
-        $('.t10').click(function(){
-        	window.chatClient.t10();
-        });
-        $('.t11').click(function(){
-        	window.chatClient.t11();
-        });
-        $('.t12').click(function(){
-        	window.chatClient.t12();
-        });
-        $('.train').click(function(){
-        	window.chatClient.train();
-        });
-        $('.altar').click(function(){
-        	window.chatClient.altar();
-        });
-        $('.leave').click(function(){
-        	window.chatClient.leave();
-        });
-        
-        $('.p').click(function(){
-        	window.chatClient.p();
-        });
-        $('.pd').click(function(){
-        	window.chatClient.pd();
-        });
-        
-        
-        
+        });        
     });
     
-    //trapper--------------
-    function tspbear(){
-    	window.chatClient.spbear();
+    function send(comm){
+    	if(comm == '!highpriest'){
+    		populatehp();
+    	}
+    	if(comm == '!frostmage'){
+    		backfromhphack();
+    		populateshockmage();
+    	}
+    	if(comm == '!trapper'){
+    		backfromhphack();
+    		populatetrapper();
+    	}
+    	if(comm == '!alchemist'){
+    		backfromhphack();
+    		populatepotionmaster();
+    	}
+    	if(comm == '!bard'){
+    		backfromhphack();
+    		document.getElementById("class-commands").innerHTML = "";
+    	}
+    	if(comm == '!firemage'){
+    		backfromhphack();
+    		document.getElementById("class-commands").innerHTML = "";
+    	}
+    	if(comm == '!rogue'){
+    		backfromhphack();
+    		document.getElementById("class-commands").innerHTML = "";
+    	}
+    	if(comm == '!archer'){
+    		backfromhphack();
+    		document.getElementById("class-commands").innerHTML = "";
+    	}
+    	var c = comm;
+    	if (lastcommand == c){
+    		c = c + ' .';
+    	}
+    	window.chatClient.PRIVMSG(c);
+    	lastcommand = c;
     }
-    function tspweak(){
-    	window.chatClient.spweak();
-    }
-    function tsppoison(){
-    	window.chatClient.sppoison();
-    }
-    function tspfire(){
-    	window.chatClient.spfire();
-    }
-    function tsparmor(){
-    	window.chatClient.sparmor();
-    }
-    function tspfrost(){
-    	window.chatClient.spfrost();
-    }
-    //frostmage------------
-    function tspa(){
-    	window.chatClient.spa();
-    }
-    function tspb(){
-    	window.chatClient.spb();
-    }
-    function tspc(){
-    	window.chatClient.spc();
-    }
-    function tspd(){
-    	window.chatClient.spd();
-    }
-    //alchemist------------
-    function tsp1(){
-    	window.chatClient.sp1();
-    }
-    function tsp2(){
-    	window.chatClient.sp2();
-    }
-    function tsp3(){
-    	window.chatClient.sp3();
-    }
-    function tsp4(){
-    	window.chatClient.sp4();
-    }
-    function tsp5(){
-    	window.chatClient.sp5();
-    }
-    function tsp6(){
-    	window.chatClient.sp6();
-    }
-    function tsp7(){
-    	window.chatClient.sp7();
-    }
-    function tsp8(){
-    	window.chatClient.sp8();
-    }
-    function tsp9(){
-    	window.chatClient.sp9();
-    }
-    //rogue
-    function tsp(){
-    	window.chatClient.sp();
-    }
-    //highpriestgems
-    function tcitrine(){
+    
+    
+    function populatehp(){
     	
+    	playedhp = true;
     	
     	document.getElementById("class-commands").innerHTML = 
-        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hppwr btn" onclick="thppwr();">!hppwr</button><button class="hpslw btn" onclick="thpslw();">!hpslw</button><button class="hpenl btn" onclick="thpenl();">!hpenl</button><button class="hpmdt btn" onclick="thpmdt();">!hpmdt</button><button class="hpchg btn" onclick="thpchg();">!hpchg</button><button class="hpspw btn" onclick="thpspw();">!hpspw</button><button class="hphst btn" onclick="thphst();">!hphst</button><button class="hplck btn" onclick="thplck();">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn" onclick="thpwis();">!hpwis</button><button class="hparm btn" onclick="thparm();">!hparm</button><button class="hpunb btn" onclick="thpunb();">!hpunb</button>';
-        
-        
+        'Please select a gem:<button class="citrine btn" onclick="populatecitrinehp();">!citrine</button><button class="ruby btn" onclick="populaterubyhp();">!ruby</button><button class="emerald btn" onclick="populateemeraldhp();">!emerald</button><button class="onyx btn" onclick="populateonyxhp();">!onyx</button>';
+    	
+        document.getElementById("towers").innerHTML = 
+        '<button class="b1 btn" onclick="bufftower(1)">!1</button><button class="b2 btn" onclick="bufftower(2)">!2</button><button class="b3 btn" onclick="bufftower(3)">!3</button><button class="b4 btn" onclick="bufftower(4)">!4</button><button class="b5 btn" onclick="bufftower(5)">!5</button><button class="b6 btn" onclick="bufftower(6)">!6</button><button class="b7 btn" onclick="bufftower(7)">!7</button><button class="b8 btn" onclick="bufftower(8)">!8</button><button class="b9 btn" onclick="bufftower(9)">!9</button><button class="b10 btn" onclick="bufftower(10)">!10</button><button class="b11 btn" onclick="bufftower(11)">!11</button><button class="b12 btn" onclick="bufftower(12)">!12</button>';
+
+        document.getElementById("misc").innerHTML = 
+        'cast spell xtimes: <button id="stack1" onclick="setstack(1)">x1</button><button id="stack2" onclick="setstack(2)">x2</button><button id="stack3" onclick="setstack(3)">x3</button><button id="stack4" onclick="setstack(4)">x4</button>';
+		
+        document.getElementById("misc2").innerHTML = "<button class='leave btn'>!leave</button>";
+        document.getElementsByClassName('leave btn')[0].onclick = function(){   send('!leave');   };	
+    }
+    
+    function populateshockmage(){
+    	document.getElementById("class-commands").innerHTML = 
+            '<button class="spa btn">!spa</button><button class="spb btn">!spb</button><button class="spc btn">!spc</button><button class="spd btn">!spd</button>';
+            document.getElementsByClassName('spa btn')[0].onclick = function(){   send('!spa');   };
+            document.getElementsByClassName('spb btn')[0].onclick = function(){   send('!spb');   };
+            document.getElementsByClassName('spc btn')[0].onclick = function(){   send('!spc');   };
+            document.getElementsByClassName('spd btn')[0].onclick = function(){   send('!spd');   };
+    }
+    
+    function populatetrapper(){
+    	document.getElementById("class-commands").innerHTML = 
+        	'<button class="spbear btn">!spbear</button><button class="spweak btn">!spweak</button><button class="sppoison btn">!sppoison</button><button class="spfire btn">!spfire</button><button class="sparmor btn">!sparmor</button><button class="spfrost btn">!spfrost</button>';
+            document.getElementsByClassName('spbear btn')[0].onclick = function(){   send('!spbear');   };
+            document.getElementsByClassName('spweak btn')[0].onclick = function(){   send('!spweak');   };
+            document.getElementsByClassName('spfire btn')[0].onclick = function(){   send('!spfire');   };
+            document.getElementsByClassName('sppoison btn')[0].onclick = function(){   send('!sppoison');   };
+            document.getElementsByClassName('sparmor btn')[0].onclick = function(){   send('!sparmor');   };
+            document.getElementsByClassName('spfrost btn')[0].onclick = function(){   send('!spfrost');   };
+    }
+    
+    function populatepotionmaster(){
+    	document.getElementById("class-commands").innerHTML = 
+        	'<button class="sp1 btn">!sp1</button><button class="sp2 btn">!sp2</button><button class="sp3 btn">!sp3</button><button class="sp4 btn">!sp4</button><button class="sp5 btn">!sp5</button><button class="sp6 btn">!sp6</button><button class="sp7 btn">!sp7</button><button class="sp8 btn">!sp8</button><button class="sp9 btn">!sp9</button>';
+        	document.getElementsByClassName('sp1 btn')[0].onclick = function(){   send('!sp1');   };
+        	document.getElementsByClassName('sp2 btn')[0].onclick = function(){   send('!sp2');   };
+        	document.getElementsByClassName('sp3 btn')[0].onclick = function(){   send('!sp3');   };
+        	document.getElementsByClassName('sp4 btn')[0].onclick = function(){   send('!sp4');   };
+        	document.getElementsByClassName('sp5 btn')[0].onclick = function(){   send('!sp5');   };
+        	document.getElementsByClassName('sp6 btn')[0].onclick = function(){   send('!sp6');   };
+        	document.getElementsByClassName('sp7 btn')[0].onclick = function(){   send('!sp7');   };
+        	document.getElementsByClassName('sp8 btn')[0].onclick = function(){   send('!sp8');   };
+        	document.getElementsByClassName('sp9 btn')[0].onclick = function(){   send('!sp9');   };
+    }
+    
+    
+    
+    
+    //highpriestgems
+    function populatecitrinehp(){
+    	
+    	document.getElementById("class-commands").innerHTML = 
+        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hppwr btn" onclick="thppwr();">!hppwr</button><button class="hpslw btn" onclick="thpslw();">!hpslw</button><button class="hpenl btn">!hpenl</button><button class="hpmdt btn">!hpmdt</button><button class="hpchg btn">!hpchg</button><button class="hpspw btn">!hpspw</button><button class="hphst btn">!hphst</button><button class="hplck btn">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn">!hpwis</button><button class="hparm btn">!hparm</button><button class="hpunb btn">!hpunb</button>';
+        //str, pwr, slw, enl, mdt, chg, spw, hst, lck, art, wis, arm, unb
     	window.chatClient.citrine();
+    	document.getElementsByClassName('hpenl btn')[0].onclick = function(){   send('!hpenl');   };
+    	document.getElementsByClassName('hpmdt btn')[0].onclick = function(){   send('!hpmdt');   };
+    	document.getElementsByClassName('hpchg btn')[0].onclick = function(){   send('!hpchg');   };
+    	document.getElementsByClassName('hpspw btn')[0].onclick = function(){   send('!hpspw');   };
+    	document.getElementsByClassName('hphst btn')[0].onclick = function(){   send('!hphst');   };
+    	document.getElementsByClassName('hplck btn')[0].onclick = function(){   send('!hplck');   };
+    	document.getElementsByClassName('hpwis btn')[0].onclick = function(){   send('!hpwis');   };
+    	document.getElementsByClassName('hparm btn')[0].onclick = function(){   send('!hparm');   };
+    	document.getElementsByClassName('hpunb btn')[0].onclick = function(){   send('!hpunb');   };
+    	
+    	
     	
     }
-    function truby(){
+    
+    function populaterubyhp(){
     	
     	document.getElementById("class-commands").innerHTML =
-        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpfcs btn" onclick="thpfcs();">!hpfcs</button><button class="hpslw btn" onclick="thpslw();">!hpslw</button><button class="hpbld btn" onclick="thpbld();">!hpbld</button><button class="hpshd btn" onclick="thpshd();">!hpshd</button><button class="hphst btn" onclick="thphst();">!hphst</button><button class="hpora btn" onclick="thpora();">!hpora</button><button class="hptrn btn" onclick="thptrn();">!hptrn</button><button class="hplck btn" onclick="thplck();">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn" onclick="thpwis();">!hpwis</button><button class="hparm btn" onclick="thparm();">!hparm</button><button class="hpunb btn" onclick="thpunb();">!hpunb</button>';
-    	
-    	
+        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpfcs btn" onclick="thpfcs();">!hpfcs</button><button class="hpslw btn" onclick="thpslw();">!hpslw</button><button class="hpbld btn" onclick="thpbld();">!hpbld</button><button class="hpshd btn">!hpshd</button><button class="hphst btn">!hphst</button><button class="hpora btn">!hpora</button><button class="hptrn btn">!hptrn</button><button class="hplck btn">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn">!hpwis</button><button class="hparm btn">!hparm</button><button class="hpunb btn">!hpunb</button>';
+    	//str, fcs, slw, bld, shd, hst, ora, trn, lck, art, wis, arm, unb
     	window.chatClient.ruby();
+    	document.getElementsByClassName('hpshd btn')[0].onclick = function(){   send('!hpshd');   };
+    	document.getElementsByClassName('hphst btn')[0].onclick = function(){   send('!hphst');   };
+    	document.getElementsByClassName('hpora btn')[0].onclick = function(){   send('!hpora');   };
+    	document.getElementsByClassName('hptrn btn')[0].onclick = function(){   send('!hptrn');   };
+    	document.getElementsByClassName('hplck btn')[0].onclick = function(){   send('!hplck');   };
+    	document.getElementsByClassName('hpwis btn')[0].onclick = function(){   send('!hpwis');   };
+    	document.getElementsByClassName('hparm btn')[0].onclick = function(){   send('!hparm');   };
+    	document.getElementsByClassName('hpunb btn')[0].onclick = function(){   send('!hpunb');   };
+    	
+    	
     }
-    function temerald(){
+    
+    function populateemeraldhp(){
     	
     	document.getElementById("class-commands").innerHTML =
-        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpbld btn" onclick="thpbld();">!hpbld</button><button class="hpknw btn" onclick="thpknw();">!hpknw</button><button class="hprst btn" onclick="thprst();">!hprst</button><button class="hpmdt btn" onclick="thpmdt();">!hpmdt</button><button class="hplck btn" onclick="thplck();">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn" onclick="thpwis();">!hpwis</button><button class="hparm btn" onclick="thparm();">!hparm</button><button class="hpunb btn" onclick="thpunb();">!hpunb</button>';
-    	
+        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpbld btn" onclick="thpbld();">!hpbld</button><button class="hpknw btn">!hpknw</button><button class="hprst btn">!hprst</button><button class="hpmdt btn">!hpmdt</button><button class="hplck btn">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn">!hpwis</button><button class="hparm btn">!hparm</button><button class="hpunb btn">!hpunb</button>';
+    	//str, bld, knw, rst, mdt, lck, art, wis, arm, unb
     	window.chatClient.emerald();
+    	document.getElementsByClassName('hpknw btn')[0].onclick = function(){   send('!hpknw');   };
+    	document.getElementsByClassName('hprst btn')[0].onclick = function(){   send('!hprst');   };
+    	document.getElementsByClassName('hpmdt btn')[0].onclick = function(){   send('!hpmdt');   };
+    	document.getElementsByClassName('hplck btn')[0].onclick = function(){   send('!hplck');   };
+    	document.getElementsByClassName('hpwis btn')[0].onclick = function(){   send('!hpwis');   };
+    	document.getElementsByClassName('hparm btn')[0].onclick = function(){   send('!hparm');   };
+    	document.getElementsByClassName('hpunb btn')[0].onclick = function(){   send('!hpunb');   };
+    	
+    	
     }
-    function tonyx(){
+    
+    function populateonyxhp(){
     	
     	
     	document.getElementById("class-commands").innerHTML =
-        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpmst btn" onclick="thpmst();">!hpmst</button><button class="hpsxp btn" onclick="thpsxp();">!hpsxp</button><button class="hpspw btn" onclick="thpspw();">!hpspw</button><button class="hpfrz btn" onclick="thpfrz();">!hpfrz</button><button class="hpfrt btn" onclick="thpfrt();">!hpfrt</button><button class="hpchg btn" onclick="thpchg();">!hpchg</button><button class="hplck btn" onclick="thplck();">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn" onclick="thpwis();">!hpwis</button><button class="hparm btn" onclick="thparm();">!hparm</button><button class="hpunb btn" onclick="thpunb();">!hpunb</button>';
-    	
+        '<button class="hpstr btn" onclick="thpstr();">!hpstr</button><button class="hpmst btn" onclick="thpmst();">!hpmst</button><button class="hpsxp btn">!hpsxp</button><button class="hpspw btn">!hpspw</button><button class="hpfrz btn">!hpfrz</button><button class="hpfrt btn">!hpfrt</button><button class="hpchg btn">!hpchg</button><button class="hplck btn">!hplck</button><button class="hpart btn" onclick="thpart();">!hpart</button><button class="hpwis btn">!hpwis</button><button class="hparm btn">!hparm</button><button class="hpunb btn">!hpunb</button>';
+    	//str, mst, sxp, spw, frz, frt, chg, lck, art, wis, arm, unb
     	window.chatClient.onyx();
+    	document.getElementsByClassName('hpsxp btn')[0].onclick = function(){   send('!hpsxp');   };
+    	document.getElementsByClassName('hpspw btn')[0].onclick = function(){   send('!hpspw');   };
+    	document.getElementsByClassName('hpfrz btn')[0].onclick = function(){   send('!hpfrz');   };
+    	document.getElementsByClassName('hpfrt btn')[0].onclick = function(){   send('!hpfrt');   };
+    	document.getElementsByClassName('hpchg btn')[0].onclick = function(){   send('!hpchg');   };
+    	document.getElementsByClassName('hplck btn')[0].onclick = function(){   send('!hplck');   };
+    	document.getElementsByClassName('hpwis btn')[0].onclick = function(){   send('!hpwis');   };
+    	document.getElementsByClassName('hparm btn')[0].onclick = function(){   send('!hparm');   };
+    	document.getElementsByClassName('hpunb btn')[0].onclick = function(){   send('!hpunb');   };
+    	
+    	
     }
     
     //hp-spells
@@ -353,60 +313,6 @@
     }
     
     
-    function thpenl(){
-    	window.chatClient.enl();
-    }
-    function thpmdt(){
-    	window.chatClient.mdt();
-    }
-    function thpchg(){
-    	window.chatClient.chg();
-    }
-    function thpspw(){
-    	window.chatClient.spw();
-    }
-    function thphst(){
-    	window.chatClient.hst();
-    }
-    function thparm(){
-    	window.chatClient.arm();
-    }
-    function thplck(){
-    	window.chatClient.lck();
-    }
-    function thpunb(){
-    	window.chatClient.unb();
-    }
-    function thpwis(){
-    	window.chatClient.wis();
-    }
-    function thpora(){
-    	window.chatClient.ora();
-    }
-    function thpshd(){
-    	window.chatClient.shd();
-    }
-    function thptrn(){
-    	window.chatClient.trn();
-    }
-    function thpknw(){
-    	window.chatClient.knw();
-    }
-    function thprst(){
-    	window.chatClient.rst();
-    }
-    function thpsxp(){
-    	window.chatClient.sxp();
-    }
-    function thpfrz(){
-    	window.chatClient.frz();
-    }
-    function thpfrt(){
-    	window.chatClient.frt();
-    }
-    
-    
-    
     function clearspells(){
     	spell = null;
     	towernumber = null;
@@ -414,7 +320,7 @@
     	var cDiv = pDiv.children;
     	for (var i = 0; i < cDiv.length; i++) {
     	   
-    	        cDiv[i].style.color = '#ffffff';  //do styling here
+    	        cDiv[i].style.color = '#ffffff';  
     	 
     	}
     
@@ -449,11 +355,17 @@
     	document.getElementById("misc2").innerHTML='<button class="train btn">!t</button><button class="altar btn">!a</button><button class="leave btn">!leave</button>';
     	
     }
+    
+    function backfromhphack(){
+    	if(playedhp == true){
+    		document.location.reload(true);
+    	}
+    }
 
     window.chatClient = new chatClient({
-        channel: 'archonthewizard',
-        username: 'your_twitch_nickname_here',
-        password: 'oauth:your_oauthkey_here',
+        channel: channel,
+        username: nickname,
+        password: oauthkey,
     });
     
     
