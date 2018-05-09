@@ -5,4 +5,4 @@ var oauthkey = 'oauth:your_oauthkey_here';
 
 //twitch player dimensions
 var width = '100%';
-var height = '550';  //pixels
+var height = '550';  //pixels 
