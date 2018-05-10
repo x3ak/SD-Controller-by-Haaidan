@@ -1,3 +1,5 @@
+Alternative download link: https://drive.google.com/open?id=1AEiBvfzrVaxcP94-sGF29Jrfq7iaEIFA
+
 SD CONTROLLER BY HAAIDAN 1.1
 A complete controller for the stream Defence game on Twitch.tv, made by ArchonTheWizard.
 
