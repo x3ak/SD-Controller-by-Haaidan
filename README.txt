@@ -14,6 +14,8 @@ CONFIGURATION STEPS:
 5. Insert your oauth-key (generated at STEP 2) where it says:  oauthkey = 'oauth:your_oauthkey_here'. DON'T erase the ' ' (quotes).
 Also Include the "oauth:".
 
+Your final configuration file should looks like this sample: https://www.goo.gl/J2WjLQ
+
 6. Press Ctrl + S to save the file. Close it and you're done! Double click on the "interface.html" to open the controller.
 
 
