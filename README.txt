@@ -1,27 +1,30 @@
-Alternative download link:
-https://drive.google.com/open?id=13eYjwNZW2pNmjxuhZubIAhv2FIueWIAb
-
-
-# SD-Controller-by-Haaidan
-A complete controller for the streamDefence game on Twitch.tv
-
-SD CONTROLLER BY HAAIDAN 1.0
+SD CONTROLLER BY HAAIDAN 1.1
+A complete controller for the stream Defence game on Twitch.tv, made by ArchonTheWizard.
 
 CONFIGURATION STEPS:
 
-1. Download ALL the files and put them together in the same folder (if they are not)
+1. Download ALL the files and put them together in the same folder (if they are not).
 
 2. Generate your password token here: https://twitchapps.com/tmi/
 
-3. Open the "interface.html" file with NOTEPAD or any other text editor software
+3. Right-click on the "configuration.js" file. Open it with NOTEPAD or any other text editor software.
 
-4. Scroll down until you find this:      unsername: 'your_twitch_nickname_here'.  (it should be in the very last line) 
-Replace it with your twitch nickname. DON'T erase the ''
+4. Isert your twitch username where it says:  nickname = 'your_twitch_username_here'. DON'T erase the ' ' (quotes). 
 
-5. At the same line you should also find   password: 'oauth:your_oauthkey_here'. 
-Go ahead and replace it with your key generated at STEP 1. DON'T erase the ''. Also Include the "oauth:"
+5. Insert your oauth-key (generated at STEP 2) where it says:  oauthkey = 'oauth:your_oauthkey_here'. DON'T erase the ' ' (quotes).
+Also Include the "oauth:".
 
-6. Done! Just double click on the "interface.html" file, open it with your favorite browser and play :)
+6. Press Ctrl + S to save the file. Close it and you're done! Double click on the "interface.html" to open the controller.
 
 
 ***Don't forget to click on the button "connect to chat" before picking up your class.
+
+
+
+OPTIONAL
+
+You can also set the twitch player embed dimensions if some of the bottom buttons are hidden due to the screen scrolling. 
+In the "configuration.js" you will find:
+width = '100%';  //percentage
+height = '550';  //pixels
+You want to set the height to a smaller value, which can be either in percentage or pixels.
